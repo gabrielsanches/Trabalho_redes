@@ -61,8 +61,6 @@ public class Cliente_receive implements Runnable {
                    
                }
 
-                System.out.println(users);
-
             } while (true);
             //socket.leaveGroup(groupAddress);
             //socket.close();
