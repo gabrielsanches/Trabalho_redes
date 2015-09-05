@@ -9,7 +9,11 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +25,11 @@ public class Cliente_receive implements Runnable {
 
     private static int porta_host = 6789;
     private static String group = "225.4.5.6";
-    private static ArrayList<Usuario> users;
+    static ArrayList<Usuario> users;
+
+    public static ArrayList<Usuario> getUsers() {
+        return users;
+    }
 
     @Override
     public void run() {
@@ -38,17 +46,28 @@ public class Cliente_receive implements Runnable {
 //imprime a mensagem recebida
 
                 String mensagem = new String(dg.getData()).trim();
-                System.out.println("received " + mensagem);
+                //System.out.println("received " + mensagem);
 
                 String[] aux = mensagem.split(" ");
                 int port = Integer.parseInt(aux[2]);
                 boolean flag = false;
 
                 if (aux[0].equals("USER")) {
+                    //Pega horario do sistema.
+                    Calendar calendar = new GregorianCalendar();
+                    SimpleDateFormat out = new SimpleDateFormat("HH:mm:ss");
+                    Date date = new Date();
+                    calendar.setTime(date);
+                    
                     Usuario user = new Usuario(group, port, aux[1], dg.getAddress().toString());
+                    user.setTimer(calendar.getTime());
+                    int i=0;
                     for (Usuario a : users) {
                         if (a.getNome().equals(user.getNome()) && a.getPorta() == user.getPorta()) {
+                            users.get(i).setTimer(calendar.getTime());
                             flag = true;
+                            i++;
+                            break;
                         }
                     }
 
@@ -56,13 +75,25 @@ public class Cliente_receive implements Runnable {
                         users.add(user);
                     }
                 }
-                
-               if (aux[0].equals("EXIT")){
-                   
-               }
 
-                System.out.println(users);
+                if (aux[0].equals("EXIT")) {
+                    int id = 0;
+                    for (Usuario a : users) {
+                        System.out.println(a.getNome() + " " + aux[1] + " " + a.getPorta() + " " + port);
+                        if (a.getNome().equals(aux[1]) && a.getPorta() == port) {
+                            flag = true;
+                            break;
+                        }
+                        id++;
+                    }
 
+                    if (flag) {
+                        users.remove(id);
+                        System.out.println("Conexão fechada para o user: " + aux[1]);
+                    }
+                }
+
+                //System.out.println(users);
             } while (true);
             //socket.leaveGroup(groupAddress);
             //socket.close();

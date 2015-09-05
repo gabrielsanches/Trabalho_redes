@@ -5,6 +5,7 @@
  */
 package Classes;
 
+import java.util.Date;
 import static javafx.scene.input.KeyCode.T;
 
 /**
@@ -16,12 +17,21 @@ public class Usuario implements Comparable<Usuario>{
     private int Porta;
     private String host;
     private String nome;
+    private Date timer;
 
     public Usuario(String grupo, int Porta, String nome, String host) {
         this.grupo = grupo;
         this.Porta = Porta;
         this.nome = nome;
         this.host = host;
+    }
+
+    public Date getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Date timer) {
+        this.timer = timer;
     }
 
     
@@ -53,6 +63,10 @@ public class Usuario implements Comparable<Usuario>{
     @Override
     public String toString() {
         return "Usuario{" + "grupo=" + grupo + ", Porta=" + Porta + ", host=" + host + ", nome=" + nome + '}';
+    }
+
+    public String getHost() {
+        return host;
     }
 
 

@@ -17,27 +17,40 @@ import java.util.logging.Logger;
  */
 public class Cliente_send implements Runnable {
 
+    static boolean connected = true;
     private static int porta_host = 6789;
-    private static int porta_cliente = 1111;
+    static int porta_cliente;
     private static String group = "225.4.5.6";
-    private static String nome = "A";
+    static String nome;
 
     @Override
     public void run() {
-        
 
         try {
-            String mensagem = "USER "+nome+" "+ porta_cliente;
+            connected = true;
+            String mensagem = "USER " + nome + " " + porta_cliente;
             InetAddress groupAddress = InetAddress.getByName(group);
             MulticastSocket socket = new MulticastSocket(porta_host);
             socket.joinGroup(groupAddress);
             while (true) {
+
+                if (!connected) {
+                    mensagem = "EXIT " + nome + " " + porta_cliente;
+                    byte[] data1 = mensagem.getBytes();
+                    DatagramPacket dg1 = new DatagramPacket(data1, data1.length, groupAddress, porta_host);
+                    socket.send(dg1); //envio
+                    break;
+                }
+
                 Thread.sleep(1000);
                 byte[] data = mensagem.getBytes();
-                DatagramPacket dg = new DatagramPacket(data, data.length, groupAddress,porta_host);
+                DatagramPacket dg = new DatagramPacket(data, data.length, groupAddress, porta_host);
                 socket.send(dg); //envio
+
             }
-            //socket.close();
+            socket.leaveGroup(groupAddress);
+            socket.close();
+
         } catch (Exception ex) {
             Logger.getLogger(Cliente_send.class.getName()).log(Level.SEVERE, null, ex);
         }
