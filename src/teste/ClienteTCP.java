@@ -23,8 +23,8 @@ public class ClienteTCP {
         long diferencaMin = diferenca / (60 * 1000);    //DIFERENCA EM MINUTOS     
         long diferencaHoras = diferenca / (60 * 60 * 1000);    // DIFERENCA EM HORAS
         
-        long time = 1441412444285;
-        System.out.println(System.currentTimeMillis()-time);
+        //long time = 1441412444285;
+        //System.out.println(System.currentTimeMillis()-time);
         try {
             Socket socket = new Socket(IP, PORTA);
             System.out.println("Conectado com "
