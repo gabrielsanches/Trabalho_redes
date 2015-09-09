@@ -17,15 +17,29 @@ import java.util.logging.Logger;
  */
 public class Cliente_send implements Runnable {
 
-    static boolean connected = true;
-    private static int porta_host = 6789;
-    static int porta_cliente;
-    private static String group = "225.4.5.6";
-    static String nome;
+    private boolean connected = true;
+    private int porta_host = 6789;
+    private int porta_cliente;
+    private String group = "226.0.0.1";
+    private String nome;
 
+    public Cliente_send(int porta_cliente, String nome) {
+        this.porta_cliente = porta_cliente;
+        this.nome = nome;
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
+
+    
+    
     @Override
     public void run() {
-
         try {
             connected = true;
             String mensagem = "USER " + nome + " " + porta_cliente;

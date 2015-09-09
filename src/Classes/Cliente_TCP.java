@@ -5,6 +5,7 @@
  */
 package Classes;
 
+import Telas.Mensagem;
 import java.io.OutputStream;
 import java.net.Socket;
 
@@ -14,21 +15,30 @@ import java.net.Socket;
  */
 public class Cliente_TCP implements Runnable {
 
-    private static int PORTA = 12345;
-    private static String IP = "localhost";
+    private int PORTA;
+    private String IP;
+    private String nome_origem;
+    private int porta_origem;
+    private Socket socket;
+
+    public Cliente_TCP(int port, String ip, String nome_origem, int porta_origem, Socket socket) {
+        this.PORTA = port;
+        this.IP = ip;
+        this.nome_origem = nome_origem;
+        this.porta_origem = porta_origem;
+        this.socket=socket;
+    }
 
     @Override
     public void run() {
 
         try {
-            Socket socket = new Socket(IP, PORTA);
-            System.out.println("Conectado com "
-                    + socket.getInetAddress().getHostAddress());
-            byte[] buffer = "PING".getBytes();
+            Mensagem ms = new Telas.Mensagem(PORTA, porta_origem, IP,socket);
+            ms.setTitle("Mensagem para " + IP);
+            java.awt.EventQueue.invokeLater(ms);
+            byte[] buffer = ("HELLO " + nome_origem + " " + porta_origem).getBytes();
             OutputStream out = socket.getOutputStream();
             out.write(buffer);
-
-            socket.close();
 
         } catch (Exception e) {
             e.printStackTrace();

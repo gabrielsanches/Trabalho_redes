@@ -17,7 +17,7 @@ public class Usuario implements Comparable<Usuario>{
     private int Porta;
     private String host;
     private String nome;
-    private Date timer;
+    private long timer;
 
     public Usuario(String grupo, int Porta, String nome, String host) {
         this.grupo = grupo;
@@ -26,11 +26,11 @@ public class Usuario implements Comparable<Usuario>{
         this.host = host;
     }
 
-    public Date getTimer() {
+    public long getTimer() {
         return timer;
     }
 
-    public void setTimer(Date timer) {
+    public void setTimer(long timer) {
         this.timer = timer;
     }
 
@@ -62,8 +62,9 @@ public class Usuario implements Comparable<Usuario>{
 
     @Override
     public String toString() {
-        return "Usuario{" + "grupo=" + grupo + ", Porta=" + Porta + ", host=" + host + ", nome=" + nome + '}';
+        return "Usuario{" + "Porta=" + Porta + ", nome=" + nome + '}';
     }
+
 
     public String getHost() {
         return host;

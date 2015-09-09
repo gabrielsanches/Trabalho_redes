@@ -17,14 +17,11 @@ public class ClienteTCP {
     public static void main(String[] args) throws InterruptedException {
 
         Calendar dataInicial = Calendar.getInstance();
-        //dataInicial.setTime();
-        long diferenca = System.currentTimeMillis() - dataInicial.getTimeInMillis();
-        long diferencaSeg = diferenca / 1000;    //DIFERENCA EM SEGUNDOS     
-        long diferencaMin = diferenca / (60 * 1000);    //DIFERENCA EM MINUTOS     
-        long diferencaHoras = diferenca / (60 * 60 * 1000);    // DIFERENCA EM HORAS
         
-        //long time = 1441412444285;
-        //System.out.println(System.currentTimeMillis()-time);
+        long time = System.currentTimeMillis();
+        Thread.sleep(5000);
+        long time2 = System.currentTimeMillis();
+        System.out.println(time2-time+" "+time2);
         try {
             Socket socket = new Socket(IP, PORTA);
             System.out.println("Conectado com "
